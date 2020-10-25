@@ -9,7 +9,7 @@ public class DepositTransaction extends Transaction {
 		this.amount = amount;
 	}
 	
-	public void process() throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException
+	public void process() throws NegativeAmountException,  ExceedsFraudSuspicionLimitException
 	{
 		if (amount < 0) 
 		{
@@ -20,10 +20,6 @@ public class DepositTransaction extends Transaction {
 			throw new ExceedsFraudSuspicionLimitException("I'm sorry, we cannot complete this transaction at this time");
 		}
 		// this one doesn't work
-		else if (targetAccount.getBalance() > 250000)
-		{
-			throw new ExceedsAvailableBalanceException("That's way too much money, buster");
-		}
 		else
 		{
 			targetAccount.deposit(amount);

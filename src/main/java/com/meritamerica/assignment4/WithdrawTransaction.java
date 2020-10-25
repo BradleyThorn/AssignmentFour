@@ -19,7 +19,7 @@ public class WithdrawTransaction extends Transaction{
 			throw new ExceedsFraudSuspicionLimitException("I'm sorry, we cannot complete this transaction at this time");
 		}
 		// this one doesn't work
-		else if (targetAccount.getBalance() > 250000)
+		else if (targetAccount.getBalance() < amount)
 		{
 			throw new ExceedsAvailableBalanceException("That's way too much money, buster");
 		}

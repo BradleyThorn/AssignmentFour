@@ -37,21 +37,30 @@ public class AccountHolder implements Comparable<AccountHolder>{
 	 */
 
 
-		public CheckingAccount addCheckingAccount(double openBalance) throws ExceedsCombinedBalanceLimitException{
-			DepositTransaction depositTransaction = new DepositTransaction(null, 1000);
-	try {
-			if(getCheckingBalance() + getSavingsBalance() + openBalance >= 250000) {
-				System.out.println("Cannot open a new Checking Account because aggregate balance of accounts is to high.");
+		public CheckingAccount addCheckingAccount(double openBalance) throws ExceedsCombinedBalanceLimitException
+		{
+			
+			try
+			{
+				if(getCheckingBalance() + getSavingsBalance() + openBalance >= 250000) 
+				{
+					throw new ExceedsCombinedBalanceLimitException("Cannot open a new Checking Account because aggregate balance of accounts is to high.");
+				}
+				
+				CheckingAccount chk = new CheckingAccount(0, .0001);
+				DepositTransaction depositTransaction = new DepositTransaction(chk, openBalance);
+				MeritBank.processTransaction(depositTransaction);
+				return chk;
+			}
+			catch (ExceedsCombinedBalanceLimitException e)
+			{
+				throw new ExceedsCombinedBalanceLimitException("You got too much money already, friend");
+			}
+			catch (Exception e)
+			{
 				return null;
 			}
-			CheckingAccount chk = new CheckingAccount(openBalance, .0001);
-			return chk;
 			
-		} catch (Exception e) {
-			
-			System.out.println("Reached combined balance limit.");
-		}
-		return null;
 		}
 
 	/**
@@ -59,19 +68,21 @@ public class AccountHolder implements Comparable<AccountHolder>{
 	 * @param checkingAccount checking account amount
 	 */
 				
-		public void addCheckingAccount(CheckingAccount checkingAccount) throws ExceedsCombinedBalanceLimitException {
-			DepositTransaction depositTransaction = new DepositTransaction(null, 1000);
-			try {
-				
-			
-			if(checkingAccount.getBalance() + getCheckingBalance() + getSavingsBalance() >= 250000) {
-				System.out.println("Cannot open a new Checking Account because aggregate balance of accounts is too high.");
-				return;
+		public void addCheckingAccount(CheckingAccount checkingAccount) throws ExceedsCombinedBalanceLimitException 
+		{
+			try 
+			{
+				if(checkingAccount.getBalance() + getCheckingBalance() + getSavingsBalance() >= 250000) 
+				{
+					System.out.println("Cannot open a new Checking Account because aggregate balance of accounts is too high.");
+					return;
+				}
+				checkingArray.add(checkingAccount);
+			} 
+			catch (Exception e) 
+			{
+				System.out.println("Reached combined balance limit.");
 			}
-			checkingArray.add(checkingAccount);
-		} catch (Exception e) {
-			System.out.println("Reached combined balance limit.");
-		}
 		}	
 		
 	/**

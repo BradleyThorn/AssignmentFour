@@ -66,14 +66,8 @@ public abstract class BankAccount {
 	}
 
 	double futureValue(int years) {
-		double recInterest = interestRate + 1;
-		double recAmmount;
-		for (int i = 0; (i < years-1); i++) {
-			recInterest = recInterest * (interestRate + 1);
-		}
-		recAmmount = recInterest * balance;
-		return recAmmount;
-
+		double good = MeritBank.recursiveFutureValue(balance, years, interestRate);
+		return good;
 	}
 
 	public void addTransaction(Transaction transaction) {

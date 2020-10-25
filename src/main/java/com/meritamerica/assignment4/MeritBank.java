@@ -95,7 +95,8 @@ public class MeritBank {
 	}
 	
 	static double futureValue(double presentValue, double interestRate, int term) {
-		double futureValue = presentValue* Math.pow((1+ interestRate),term);
+		double futureValue = recursiveFutureValue(presentValue, term, interestRate);
+		//double futureValue = presentValue* Math.pow((1+ interestRate),term);
 		return futureValue;
 	}
 	
@@ -233,7 +234,13 @@ public class MeritBank {
 	}
 	
 public static double recursiveFutureValue(double amount, int years, double interestRate) {
-		return 0;
+		double recInterest = interestRate + 1;
+		double recAmmount;
+		for (int i = 0; (i < years-1); i++) {
+			recInterest = recInterest * (interestRate + 1);
+		}
+		recAmmount = recInterest * amount;
+		return recAmmount;
 }
 
 public static boolean processTransaction(Transaction transaction) throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException {
